@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kakao.payment.repository.PaymentMsgMapper">
+	<insert id="insertMsg" parameterType="PaymentMsgEntity">
+		insert into PAYMENT_MSG (
+				 TRANSACTION_ID
+				,MSG
+				,REG_YMS
+				)
+		values (
+				  #{transactionId}
+				, #{msg}
+				, #{regYms}
+				)
+	</insert>
+</mapper>

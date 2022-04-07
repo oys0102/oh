@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kakao.payment.repository.PaymentTranMapper">
+	<insert id="insertPaymentTran" parameterType="PaymentEntity">
+		insert into PAYMENT_TRAN (
+				 TRAN_NO
+				,PAYMENT_AMOUNT
+				,TAX_AMOUNT
+				,PAYMENT_BALANCE
+				,TAX_BALANCE
+				,ENC_CARD_INFO
+				,INSTALLMENT_MONTH
+				,PAY_APPLY_YMS
+				,PAY_CANCEL_YMS
+				,STATUS
+				,TRANSACTION_ID
+				,REG_YMS
+				,UDT_YMS
+				)
+		values (
+				  #{tranNo}
+				, #{paymentAmount}
+				, #{taxAmount}
+				, #{paymentBalance}
+				, #{taxBalance}
+				, #{encCardInfo}
+				, #{installmentMonth}
+				, #{payApplyYms}
+				, #{payCancelYms}
+				, #{status}
+				, #{transactionId}
+				, #{regYms}
+				, #{udtYms}
+				)
+	</insert>
+	<update id="updatePaymentTran" parameterType="PaymentEntity">
+		update PAYMENT_TRAN
+		set    STATUS 			= #{status}
+		     , UDT_YMS 			= #{udtYms}
+		where  TRAN_NO 			= #{tranNo}
+	</update>
+	<update id="updatePaymentCancelTran" parameterType="PaymentEntity">
+		update PAYMENT_TRAN
+		set    PAYMENT_BALANCE 	= #{paymentBalance}
+		     , TAX_BALANCE 		= #{taxBalance}
+		     , PAY_CANCEL_YMS 	= #{payCancelYms}
+		     , STATUS 			= #{status}
+		     , UDT_YMS 			= #{udtYms}
+		where  TRAN_NO 			= #{tranNo}
+	</update>
+	<select id="selectPaymentTran" resultType="PaymentEntity">
+		select   TRAN_NO
+				,PAYMENT_AMOUNT
+				,TAX_AMOUNT
+				,PAYMENT_BALANCE
+				,TAX_BALANCE
+				,ENC_CARD_INFO
+				,INSTALLMENT_MONTH
+				,PAY_APPLY_YMS
+				,PAY_CANCEL_YMS
+				,STATUS
+				,TRANSACTION_ID
+				,REG_YMS
+				,UDT_YMS
+		from   PAYMENT_TRAN
+		where  TRAN_NO = #{tranNo}
+	</select>
+	<select id="selectPaymentSEQ" resultType="String">
+		select #{tranYmd}||LPAD(NVL(MAX(SUBSTR(TRAN_NO,9,12)),0)+1,12,0)
+		from   PAYMENT_TRAN
+		where  SUBSTR(TRAN_NO,0,8)  = #{tranYmd}
+	</select>
+</mapper>
